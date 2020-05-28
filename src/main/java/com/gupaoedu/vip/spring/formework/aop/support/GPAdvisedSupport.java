@@ -31,6 +31,9 @@ public class GPAdvisedSupport {
 
     private GPAopConfig config;
 
+    public GPAdvisedSupport(GPAopConfig config) {
+        this.config = config;
+    }
 
     public List<Object> getInterceptorsAndDynamicInterceptionAdvice(Method method, Class<?> targetClass) throws Exception {
         List<Object> cached = methodCache.get(method);

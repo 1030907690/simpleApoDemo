@@ -31,7 +31,7 @@ public class GPMethodInvocation implements GPJoinPoint {
 
     private int currentInterceptorIndex = -1;
 
-    public GPMethodInvocation(Object proxy, Method method, Object target, Class<?> targetClass, Object[] arguments, List<Object> interceptorsAndDynamicMethodMatchers) {
+    public GPMethodInvocation(Object proxy, Object target,Method method,   Object[] arguments,Class<?> targetClass, List<Object> interceptorsAndDynamicMethodMatchers) {
         this.proxy = proxy;
         this.method = method;
         this.target = target;
