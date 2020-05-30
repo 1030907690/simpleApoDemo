@@ -21,31 +21,38 @@ public class DefaultApplicationContextImpl implements ApplicationContext {
 
     public DefaultApplicationContextImpl() {
         try {
-            instaniateBean("testService", TestServiceImpl.class);
+            refresh();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
+    public void refresh() throws Exception {
+        finishBeanFactoryInitialization();
+    }
+
+    private void finishBeanFactoryInitialization() throws Exception {
+        registerBeanDefinition("testService", TestServiceImpl.class);
+    }
+
     @Override
     public Object getBean(String beanName) {
         return beanDefinition.get(beanName);
     }
 
-    private void instaniateBean(String beanName,Class clz) throws Exception {
+    private void registerBeanDefinition(String beanName, Class clz) throws Exception {
         GPAdvisedSupport config = instantionAopConfig();
         config.setTargetClass(clz);
         config.setTarget(clz.newInstance());
         Object instance = createProxy(config).getProxy();
-        beanDefinition.put(beanName,instance);
+        beanDefinition.put(beanName, instance);
     }
 
     public GPAdvisedSupport instantionAopConfig() {
 
         GPAopConfig config = new GPAopConfig();
         // 设置值
-
         Properties props = new Properties();
         //查找配置文件的属性 并且都合并到props
         ClassPathResource location = new ClassPathResource("application.properties");
@@ -64,9 +71,9 @@ public class DefaultApplicationContextImpl implements ApplicationContext {
     }
 
 
-    private GPAopProxy createProxy(GPAdvisedSupport config){
+    private GPAopProxy createProxy(GPAdvisedSupport config) {
         Class targetClass = config.getTargetClass();
-        if (targetClass.getInterfaces().length > 0 ){
+        if (targetClass.getInterfaces().length > 0) {
             return new GPJdkDynamicAopProxy(config);
         }
         //TODO 没有实现接口则使用cglib代理 暂时没写
