@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 /***
  * 主要用来解析和封装aop配置
  * */
-@Data
 public class GPAdvisedSupport {
 
     private Class targetClass;
@@ -101,6 +100,8 @@ public class GPAdvisedSupport {
                     }
 
                     methodCache.put(m, advices);
+                    //methodCache.put(targetClass.getInterfaces()[0].getMethod(m.getName(),m.getParameterTypes()), advices);
+
                 }
             }
         } catch (Exception e) {
@@ -108,4 +109,45 @@ public class GPAdvisedSupport {
         }
     }
 
+
+    public void setTargetClass(Class targetClass) {
+        this.targetClass = targetClass;
+        parse();
+    }
+
+    public void setTarget(Object target) {
+        this.target = target;
+    }
+
+    public void setPointCutClassPattern(Pattern pointCutClassPattern) {
+        this.pointCutClassPattern = pointCutClassPattern;
+    }
+
+    public void setMethodCache(Map<Method, List<Object>> methodCache) {
+        this.methodCache = methodCache;
+    }
+
+    public void setConfig(GPAopConfig config) {
+        this.config = config;
+    }
+
+    public Class getTargetClass() {
+        return targetClass;
+    }
+
+    public Object getTarget() {
+        return target;
+    }
+
+    public Pattern getPointCutClassPattern() {
+        return pointCutClassPattern;
+    }
+
+    public Map<Method, List<Object>> getMethodCache() {
+        return methodCache;
+    }
+
+    public GPAopConfig getConfig() {
+        return config;
+    }
 }

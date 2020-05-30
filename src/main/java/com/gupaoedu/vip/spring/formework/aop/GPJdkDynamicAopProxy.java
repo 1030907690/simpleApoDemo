@@ -35,6 +35,10 @@ public class GPJdkDynamicAopProxy implements GPAopProxy, InvocationHandler {
     //invoke 方法是执行代理的关键入口
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if("toString".equals(method.getName())){
+            return "toString";
+        }
+
         //将每一个JoinPoint 也就是被代理的业务方法(Method) 封装成一个拦截器 ,组合成一个拦截器链
         List<Object> interceptorsAndDynamicMethodMatchers = config.getInterceptorsAndDynamicInterceptionAdvice(method,this.config.getTargetClass());
         //交给拦截器链  MethodInvocation 的proceed方法执行

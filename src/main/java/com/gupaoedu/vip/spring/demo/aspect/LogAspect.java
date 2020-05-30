@@ -1,4 +1,6 @@
-package com.gupaoedu.vip.spring.formework.aop.aspect;
+package com.gupaoedu.vip.spring.demo.aspect;
+
+import com.gupaoedu.vip.spring.formework.aop.aspect.GPJoinPoint;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;

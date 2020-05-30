@@ -4,14 +4,11 @@ import com.gupaoedu.vip.spring.formework.aop.GPAopConfig;
 import com.gupaoedu.vip.spring.formework.aop.GPAopProxy;
 import com.gupaoedu.vip.spring.formework.aop.GPJdkDynamicAopProxy;
 import com.gupaoedu.vip.spring.formework.aop.support.GPAdvisedSupport;
-import com.gupaoedu.vip.spring.formework.service.TestServiceImpl;
-import com.sun.org.apache.regexp.internal.RE;
+import com.gupaoedu.vip.spring.demo.service.impl.TestServiceImpl;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +30,7 @@ public class DefaultApplicationContextImpl implements ApplicationContext {
 
     @Override
     public Object getBean(String beanName) {
-        return null;
+        return beanDefinition.get(beanName);
     }
 
     private void instaniateBean(String beanName,Class clz) throws Exception {
@@ -47,8 +44,8 @@ public class DefaultApplicationContextImpl implements ApplicationContext {
     public GPAdvisedSupport instantionAopConfig() {
 
         GPAopConfig config = new GPAopConfig();
-        //TODO 设置值
-        // 第一种
+        // 设置值
+
         Properties props = new Properties();
         //查找配置文件的属性 并且都合并到props
         ClassPathResource location = new ClassPathResource("application.properties");
@@ -57,6 +54,12 @@ public class DefaultApplicationContextImpl implements ApplicationContext {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        config.setPointCut(props.getProperty("pointCut"));
+        config.setAspectClass(props.getProperty("aspectClass"));
+        config.setAspectBefore(props.getProperty("aspectBefore"));
+        config.setAspectAfter(props.getProperty("aspectAfter"));
+        config.setAspectAfterThrow(props.getProperty("aspectAfterThrow"));
+        config.setAspectAfterThrowingName(props.getProperty("aspectAfterThrowingName"));
         return new GPAdvisedSupport(config);
     }
 
@@ -66,7 +69,7 @@ public class DefaultApplicationContextImpl implements ApplicationContext {
         if (targetClass.getInterfaces().length > 0 ){
             return new GPJdkDynamicAopProxy(config);
         }
-        //TODO 没有实现接口使用cglib代理 暂时没写
+        //TODO 没有实现接口则使用cglib代理 暂时没写
         return null;
     }
 }

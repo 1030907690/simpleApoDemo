@@ -1,4 +1,4 @@
-package com.gupaoedu.vip.spring.formework.service;
+package com.gupaoedu.vip.spring.demo.service;
 
 public interface ITestService {
     public Integer test();
